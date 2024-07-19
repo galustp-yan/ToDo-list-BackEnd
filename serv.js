@@ -61,7 +61,7 @@ app.use(express.json());
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENTID,
     clientSecret: process.env.CLIENTSECRET,
-    callbackURL: `http://localhost:${process.env.PORT}/auth/google/callback`
+    callbackURL: `https://todo-list-backend-xvuj.onrender.com/auth/google/callback`
 }, (accessToken, refreshToken, profile, done) => {
     // This function is called after successful authentication
     // You can perform database operations here to store user data
@@ -138,7 +138,7 @@ app.get('/auth/google/callback',
     
                 await connection.release();
                 res.cookie('email', userData.email, { maxAge: 600000 });
-                res.redirect(`http://localhost:3000/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`) // `/home?t=${encodeURIComponent(token)}`
+                res.redirect(`https://tonationdo.netlify.app/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`) // `/home?t=${encodeURIComponent(token)}`
                 console.log('Connection released!');
             } catch (error) {
                 if(error.sqlMessage === `Duplicate entry '${userData.email}' for key 'users.email_UNIQUE'`
@@ -146,7 +146,7 @@ app.get('/auth/google/callback',
                 ){
                     req.session.email = userData.email;
                     res.cookie('email', userData.email, { maxAge: 600000 });
-                    res.redirect(`http://localhost:3000/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`)
+                    res.redirect(`https://tonationdo.netlify.app/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`)
                 } else
                     console.log(error.message);
             } finally {
