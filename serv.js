@@ -50,7 +50,7 @@ app.use(session({
     secret: randomString,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true for HTTPS
+    cookie: { secure: true } // Set to true for HTTPS
 }));
 
 // Initialize Passport and restore authentication state, if any, from the session
