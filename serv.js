@@ -49,8 +49,9 @@ const randomString = generateRandomString(32);
 app.use(session({
     secret: randomString,
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true } // Set to true for HTTPS
+    saveUninitialized: true// Set to true for HTTPS
+    // ,
+    // cookie: { secure: true } 
 }));
 
 // Initialize Passport and restore authentication state, if any, from the session
