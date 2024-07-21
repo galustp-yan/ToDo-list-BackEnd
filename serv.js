@@ -137,20 +137,20 @@ app.get('/auth/google/callback',
                 console.log('Inserted User:', selectResult); // Access the first row (inserted user)
     
                 await connection.release();
-                console.log('====================================');
-                console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                console.log('====================================');
                 res.cookie('email', userData.email, { maxAge: 600000, secure: true });
                 res.redirect(`https://tonationdo.netlify.app/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`) // `/home?t=${encodeURIComponent(token)}`
                 console.log('Connection released!');
             } catch (error) {
+                console.log('====================================');
                 if(error.sqlMessage === `Duplicate entry '${userData.email}' for key 'users.email_UNIQUE'`
-                   ||  error.sqlMessage === `Duplicate entry '${userData.email}' for key 'email_UNIQUE'`
+                    ||  error.sqlMessage === `Duplicate entry '${userData.email}' for key 'email_UNIQUE'`
                 ){
+                    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                     req.session.email = userData.email;
                     res.cookie('email', userData.email, { maxAge: 600000, secure: true });
                     res.redirect(`https://tonationdo.netlify.app/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`)
                 } else
+                console.log('====================================');
                     console.log(error.message);
             } finally {
                 await connectionPool.end();
