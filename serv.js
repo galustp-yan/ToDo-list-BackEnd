@@ -19,6 +19,9 @@ const cors = require('cors');
 app.use(cors()); 
 ///////////////
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser()); 
+
 //db connection setting
 const connectionSetting = {
     host: process.env.HOST,
@@ -141,16 +144,13 @@ app.get('/auth/google/callback',
                 res.redirect(`https://tonationdo.netlify.app/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`) // `/home?t=${encodeURIComponent(token)}`
                 console.log('Connection released!');
             } catch (error) {
-                console.log('====================================');
                 if(error.sqlMessage === `Duplicate entry '${userData.email}' for key 'users.email_UNIQUE'`
                     ||  error.sqlMessage === `Duplicate entry '${userData.email}' for key 'email_UNIQUE'`
                 ){
-                    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                     req.session.email = userData.email;
                     res.cookie('email', userData.email, { maxAge: 600000, secure: true });
                     res.redirect(`https://tonationdo.netlify.app/home?t=${encodeURIComponent(token)}&e=${encodeURIComponent(userData.email)}`)
                 } else
-                console.log('====================================');
                     console.log(error.message);
             } finally {
                 await connectionPool.end();
